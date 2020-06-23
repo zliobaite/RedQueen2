@@ -92,11 +92,12 @@ rec_abundances <- as.matrix(rec_abundances)
 write.table(rec_abundances,file = 'ab_all.csv',row.names = FALSE, col.names = TRUE, sep = '\t', quote = FALSE )
 
 cols <- c('#e66101','#fdb863','#b2abd2','#5e3c99')
-cols_grey <- c('black','grey30','grey60','grey90')
-lty_grey <- c(3,5,1,1)
+#cols_grey <- c('black','grey30','grey60','grey90')
+cols_grey <- c('black','black','black','black')
+lty_grey <- c(1,3,5,6)
+lwd_grey <- c(2,2,2,2)
 
-lwd_grey <- c(1,2,3,5)
-pdf('fig_abundances_col.pdf',width = 15, height = 4)
+pdf('fig_Fig2_col.pdf',width = 15, height = 4)
 plot(NA,NA,xlim = c(1,N),ylim = c(0,1), xlab = 'Time step', ylab = 'Relative abundance')
 for (sk in 1:N ){
   if (body_masses[sk] == 1){
@@ -116,7 +117,7 @@ for (sk in 1:N ){
 }
 dev.off()
 
-pdf('fig_abundances.pdf',width = 10, height = 5)
+pdf('fig_Fig2_black.pdf',width = 12, height = 3.5)
 plot(NA,NA,xlim = c(1,N),ylim = c(0,1), xlab = 'Time step', ylab = 'Relative abundance')
 for (sk in 1:N ){
   if (body_masses[sk] == 1){
@@ -149,23 +150,26 @@ write.table(data_hats,file = 'data_hats.csv',row.names = FALSE, col.names = TRUE
 
 library(ggplot2)
 
+plot_wd <- 4.5
+plot_ht <- 3.5
+
 data_hats <- as.data.frame(data_hats)
-pdf('fig_stats.pdf',height = 4,width = 5)
-boxplot(lng~M,data=data_hats, xlab="Body mass", ylab="Lifetime")
+pdf('fig_Fig3A_box.pdf',height = plot_ht,width = plot_wd)
+boxplot(lng~M,data=data_hats, xlab="Body mass class", ylab="Species duration")
 dev.off()
 
 data_hats$M <- as.factor(data_hats$M)
-pdf('fig_stats_viol.pdf',height = 3.5,width = 4)
-p <- ggplot(data_hats, aes(x=M, y=lng)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.05 ) + labs(x="Body mass class", y = "Species duration") + theme_minimal()
+pdf('fig_Fig3A.pdf',height = plot_ht,width = plot_wd)
+p <- ggplot(data_hats, aes(x=M, y=lng)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.05 ) + labs(x="Body mass class", y = "Species duration", title = '(A)') + theme_minimal()
 print(p)
 dev.off()
 
-pdf('fig_stats2.pdf',height = 4,width = 5)
-boxplot(mx~M,data=data_hats, xlab="Body mass", ylab="Peak relative abundance")
+pdf('fig_Fig3B_box.pdf',height = plot_ht,width = plot_wd)
+boxplot(mx~M,data=data_hats, xlab="Body mass class", ylab="Log. peak relative abundance")
 dev.off()
 
-pdf('fig_stats2_viol.pdf',height = 3.5,width = 4)
-p <- ggplot(data_hats, aes(x=M, y=mx)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.05 ) + labs(x="Body mass class", y = "Log. peak relative abundance") + theme_minimal()
+pdf('fig_sFig3B.pdf',height = plot_ht,width = plot_wd)
+p <- ggplot(data_hats, aes(x=M, y=mx)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.05 ) + labs(x="Body mass class", y = "Log. peak relative abundance", title = '(B)') + theme_minimal()
 print(p)
 dev.off()
 
@@ -177,13 +181,12 @@ colnames(rec_eve_flat) <- c('M','E')
 rec_eve_flat <- as.data.frame(rec_eve_flat)
 rec_eve_flat$M <- as.factor(rec_eve_flat$M)
 
-pdf('fig_stats3.pdf',height = 4,width = 5)
-#boxplot(rec_ene, use.cols = TRUE, xlab="Body mass", ylab="Energy controlled")
-boxplot(E~M,data=rec_eve_flat, xlab="Body mass", ylab="Energy controlled")
+pdf('fig_Fig3C_box.pdf',height = plot_ht,width = plot_wd)
+boxplot(E~M,data=rec_eve_flat, xlab="Body mass class", ylab="Energy controlled")
 dev.off()
 
-pdf('fig_stats3_viol.pdf',height = 3.5,width = 4)
-p <- ggplot(rec_eve_flat, aes(x=M, y=E)) + geom_violin(trim=FALSE)  + labs(x="Body mass class", y = "Energy controlled") + theme_minimal() + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.1 )
+pdf('fig_Fig3C.pdf',height = plot_ht,width = plot_wd)
+p <- ggplot(rec_eve_flat, aes(x=M, y=E)) + geom_violin(trim=FALSE)  + labs(x="Body mass class", y = "Energy controlled", title = '(C)') + theme_minimal() + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.1 )
 print(p)
 dev.off()
 
@@ -195,12 +198,12 @@ colnames(rec_bio_flat) <- c('M','Mtot')
 rec_bio_flat <- as.data.frame(rec_bio_flat)
 rec_bio_flat$M <- as.factor(rec_bio_flat$M)
 
-pdf('fig_stats4.pdf',height = 4,width = 5)
-boxplot(Mtot~M,data=rec_bio_flat, xlab="Body mass", ylab="Biomass")
+pdf('fig_Fig3D_box.pdf',height = plot_ht,width = plot_wd)
+boxplot(Mtot~M,data=rec_bio_flat, xlab="Body mass class", ylab="Biomass")
 dev.off()
 
-pdf('fig_stats4_viol.pdf',height = 3.5,width = 4)
-p <- ggplot(rec_bio_flat, aes(x=M, y=Mtot)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.1 ) + labs(x="Body mass class", y = "Biomass") + theme_minimal()
+pdf('fig_Fig3D.pdf',height = plot_ht,width = plot_wd)
+p <- ggplot(rec_bio_flat, aes(x=M, y=Mtot)) + geom_violin(trim=FALSE) + stat_summary(fun.data="mean_sdl", geom="crossbar", width=0.1 ) + labs(x="Body mass class", y = "Biomass", title = '(D)') + theme_minimal()
 print(p)
 dev.off()
 

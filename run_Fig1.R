@@ -24,7 +24,7 @@ for (sk in 1:cik){
 pdf('fig_Fig1A.pdf',width = 4.5, height = 4)
 plot(c(0:cik),pop[,1],xlim = c(1,cik),ylim = c(0,1), xlab = 'Time step', ylab = 'Relative population size',type = "l", lwd = 3, main = 'Expanding species (A)')
 lines(c(0:cik),pop[,3],lty = 2 )
-legend('bottomright',lty= c(2,1), lwd = c(1,3), legend = c('Exponentail growth','Proportional prize competition'),cex = 0.8, bty = 'n')
+legend('bottomright',lty= c(2,1), lwd = c(1,3), legend = c('Exponential growth','Proportional prize competition'),cex = 0.8, bty = 'n')
 dev.off()
 
 pdf('fig_Fig1B.pdf',width = 4.5, height = 4)
